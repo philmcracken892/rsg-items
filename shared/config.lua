@@ -2,10 +2,10 @@ Config = {
     RewardInteractions = {
         {
             models = {
-                `p_crateapple01x`,  -- Example apple model
-                `p_crateapple01b`,  -- Alternative apple modelcrp_cornstalks_ab_sim   a_c_cow
-				`p_basketapple01x`, -- Alternative apple model
-				`p_barrelapples01x`, -- Alternative apple model
+                `p_crateapple01x`, 
+                `p_crateapple01b`,  
+				`p_basketapple01x`,
+				`p_barrelapples01x`, 
 				`p_group_generalstore`,
 				`p_int_produce02`,
             },
