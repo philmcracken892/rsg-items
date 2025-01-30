@@ -30,19 +30,19 @@ local function goCollect(interaction)
     active = true
     local playerPed = PlayerPedId()
     
-    -- Request animation dictionary
+    
     RequestAnimDict(interaction.animDict or "mech_pickup@plant@yarrow")
     while not HasAnimDictLoaded(interaction.animDict or "mech_pickup@plant@yarrow") do
         Wait(100)
     end
-    -- First animation phase
+   
     TaskPlayAnim(playerPed, 
         interaction.animDict or "mech_pickup@plant@yarrow", 
         interaction.enterAnim or "enter_lf", 
         8.0, -0.5, -1, 0, 0, true, 0, false, 0, false
     )
     Wait(800)
-    -- Second animation phase
+   
     TaskPlayAnim(playerPed, 
         interaction.animDict or "mech_pickup@plant@yarrow", 
         interaction.baseAnim or "base", 
@@ -50,24 +50,24 @@ local function goCollect(interaction)
     )
     Wait(2300)
     
-    -- Trigger item reward
+    
     TriggerServerEvent('rewards:GiveItem', interaction.rewardItem, interaction.quantity or 1)
     
-    -- Safe notification with nil checks
+    
     local itemName = interaction.rewardItem or "item"
     local itemQuantity = interaction.quantity or 1
     TriggerEvent('rNotify:NotifyLeft', "ITEM COLLECTED", "You collected " .. itemQuantity .. "x " .. itemName, "generic_textures", "tick", 4000)
     
-    -- Set cooldown
+    
     setCooldown(interaction.rewardItem)
     
-    -- Clean up
+    
     ClearPedTasks(playerPed)
     active = false
 end
 
 local function SetupRewardInteractions()
-    -- Define icons for different item types
+    
     local itemIcons = {
         apple = {
             start = '🍎',  -- apple
@@ -106,7 +106,7 @@ local function SetupRewardInteractions()
             end_icon = '🧺'  -- basket
         }
     }
-    -- Default icons if item type not found
+    
     local defaultIcons = {
         start = '🔄',
         end_icon = '📥'
