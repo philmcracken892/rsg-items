@@ -30,19 +30,18 @@ local function goCollect(interaction)
     active = true
     local playerPed = PlayerPedId()
     
-    
     RequestAnimDict(interaction.animDict or "mech_pickup@plant@yarrow")
     while not HasAnimDictLoaded(interaction.animDict or "mech_pickup@plant@yarrow") do
         Wait(100)
     end
-   
+    
     TaskPlayAnim(playerPed, 
         interaction.animDict or "mech_pickup@plant@yarrow", 
         interaction.enterAnim or "enter_lf", 
         8.0, -0.5, -1, 0, 0, true, 0, false, 0, false
     )
     Wait(800)
-   
+    
     TaskPlayAnim(playerPed, 
         interaction.animDict or "mech_pickup@plant@yarrow", 
         interaction.baseAnim or "base", 
@@ -51,65 +50,61 @@ local function goCollect(interaction)
     Wait(2300)
     
     
-    TriggerServerEvent('rewards:GiveItem', interaction.rewardItem, interaction.quantity or 1)
-    
-    
-    local itemName = interaction.rewardItem or "item"
-    local itemQuantity = interaction.quantity or 1
-    TriggerEvent('rNotify:NotifyLeft', "ITEM COLLECTED", "You collected " .. itemQuantity .. "x " .. itemName, "generic_textures", "tick", 4000)
-    
+    TriggerServerEvent('rewards:GiveItem', interaction.rewardItem)
     
     setCooldown(interaction.rewardItem)
-    
-    
     ClearPedTasks(playerPed)
     active = false
 end
 
+RegisterNetEvent('rewards:ItemCollected', function(itemName, quantity)
+    TriggerEvent('rNotify:NotifyLeft', "ITEM COLLECTED", "You found " .. quantity .. "x " .. itemName, "generic_textures", "tick", 4000)
+end)
+
 local function SetupRewardInteractions()
-    
+    -- Define icons for different item types
     local itemIcons = {
         apple = {
-            start = '🍎',  -- apple
-            end_icon = '🧺'  -- basket
+            start = '๐',  -- apple
+            end_icon = '๐งบ'  -- basket
         },
         herbs = {
-            start = '🌿',  -- herb
-            end_icon = '✨'  -- sparkles
+            start = '๐ฟ',  -- herb
+            end_icon = 'โจ'  -- sparkles
         },
         tobacco = {
-            start = '🌱',  -- seedling
-            end_icon = '🍃'  -- leaf
+            start = '๐ฑ',  -- seedling
+            end_icon = '๐'  -- leaf
         },
         sugar = {
-            start = '🎋',  -- bamboo (representing sugarcane)
-            end_icon = '🧺'  -- basket
+            start = '๐',  -- bamboo (representing sugarcane)
+            end_icon = '๐งบ'  -- basket
         },
         carrot = {
-            start = '🥕',  -- carrot
-            end_icon = '🧺'  -- basket
+            start = '๐ฅ•',  -- carrot
+            end_icon = '๐งบ'  -- basket
         },
         broccoli = {
-            start = '🥦',  -- broccoli
-            end_icon = '🧺'  -- basket
+            start = '๐ฅฆ',  -- broccoli
+            end_icon = '๐งบ'  -- basket
         },
         potato = {
-            start = '🥔',  -- potato
-            end_icon = '🧺'  -- basket
+            start = '๐ฅ”',  -- potato
+            end_icon = '๐งบ'  -- basket
         },
         water = {
-            start = '💧',  -- water drop
-            end_icon = '🌵'  -- cactus
+            start = '๐’ง',  -- water drop
+            end_icon = '๐ต'  -- cactus
         },
         corn = {
-            start = '🌽',  -- corn
-            end_icon = '🧺'  -- basket
+            start = '๐ฝ',  -- corn
+            end_icon = '๐งบ'  -- basket
         }
     }
     
     local defaultIcons = {
-        start = '🔄',
-        end_icon = '📥'
+        start = '๐”',
+        end_icon = '๐“ฅ'
     }
     for _, interaction in ipairs(Config.RewardInteractions) do
         if not interaction.rewardItem then
